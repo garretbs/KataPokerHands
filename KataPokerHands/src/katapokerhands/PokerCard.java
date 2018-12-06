@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 public class PokerCard {
     
-    private static enum Suit{
+    public static enum Suit{
         CLUB, SPADE, DIAMOND, HEART
     }
     
@@ -35,11 +35,20 @@ public class PokerCard {
     //For scoring purposes, the suits are unordered while the values are ordered
     //as given above, with 2 being the lowest and ace the highest value.
     
-    public int value; //the number/face value (e.g. 4, 9, ace, queen, etc.)
-    public Suit suit; //club, space, diamond, heart
+    private final char value; //the number/face value (e.g. 4, 9, ace, queen, etc.)
+    private final char suit; //club, space, diamond, heart
     
     public PokerCard(String cardInfo){
-        value = CARDVALUES.get(cardInfo.charAt(0));
-        suit = SUITVALUES.get(cardInfo.charAt(1));
+        value = cardInfo.charAt(0);
+        suit = cardInfo.charAt(1);
+    }
+    
+    public int getValue(){
+        //error if unknown symbol
+        return CARDVALUES.get(value);
+    }
+    
+    public Suit getSuit(){
+        return SUITVALUES.get(suit);
     }
 }

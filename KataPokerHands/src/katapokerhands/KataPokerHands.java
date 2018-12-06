@@ -24,12 +24,13 @@ public class KataPokerHands {
         PokerHand white;
         PokerHandComparer comparer = new PokerHandComparer();
         
-        System.out.println("Please input the game info: ");
-        String game = inputReader.nextLine();
+        //System.out.println("Please input the game info: ");
+        String game = "Black: 2H 3D 5S 9C KD  White: 2C 3H 4S 8C AH";//inputReader.nextLine();
+        System.out.println(game+"\n");
         inputReader.close();
         String[] handsInfo = game.split("  "); //Two spaces separate the hands in the sample input
-        //Input does not have right number of arguments
-        if(handsInfo.length != 2){
+        
+        if(handsInfo.length != 2){//Input does not have right number of arguments
             throw new Exception("Input format does not have two hands");
         }
         

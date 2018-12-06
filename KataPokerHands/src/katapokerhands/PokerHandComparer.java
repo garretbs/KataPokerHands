@@ -9,6 +9,15 @@ public class PokerHandComparer {
     }
     
     public Result compare(PokerHand hand1, PokerHand hand2){
+        if(hand1.getTotalValue() > hand2.getTotalValue()){
+            return Result.HAND_1;
+        }
+        if(hand2.getTotalValue() > hand1.getTotalValue()){
+            return Result.HAND_2;
+        }
+        if(hand1.getTotalValue() == hand2.getTotalValue()){
+            return Result.EQUAL;
+        }
         return Result.UNKNOWN;
     }
 }

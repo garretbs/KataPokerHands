@@ -74,39 +74,25 @@ public class PokerHand {
             handType = HandType.PAIR;
         }
         else{
+            //High Card: Hands which do not fit any higher category are ranked by
+            //the value of their highest card. If the highest cards have the same
+            //value, the hands are ranked by the next highest, and so on.
             handType = HandType.HIGH_CARD;
             handValue = cards.get(cards.size()-1).getValue();
         }
-        
-        //High Card: Hands which do not fit any higher category are ranked by
-        //the value of their highest card. If the highest cards have the same
-        //value, the hands are ranked by the next highest, and so on.
         return handValue;
     }
     
     private boolean isStraightFlush(){
         //Straight flush: 5 cards of the same suit with consecutive values.
         //Ranked by the highest card in the hand.
-        PokerCard previousCard = cards.get(0);
-        PokerCard currentCard;
-        for(int i=1;i<cards.size();i++){
-            currentCard = cards.get(i);
-            
-            //Not the same suit, therefore it cannot possibly be straight flush.
-            if(currentCard.getSuit() != previousCard.getSuit()){
-                return false;
-            }
-            
-            //Not consecutive value.
-            if(currentCard.getValue() != (previousCard.getValue()+1)){
-                return false;
-            }
-            previousCard = currentCard;
+        
+        if(isStraight() && isFlush()){
+            handValue = cards.get(cards.size()-1).getValue();
+            return true;
         }
         
-        //All cards are the same suit and are consecutive in value
-        handValue = cards.get(cards.size()-1).getValue();
-        return true;
+        return false;
     }
     
     private boolean isFourOfAKind(){
@@ -159,17 +145,13 @@ public class PokerHand {
     private boolean isFlush(){
         //Flush: Hand contains 5 cards of the same suit. Hands which are both
         //flushes are ranked using the rules for High Card.
-        PokerCard firstCard = cards.get(0);
-        for(int i=1;i<cards.size();i++){
-            
-            //One card's suit does not match
-            if(cards.get(i).getSuit() != firstCard.getSuit()){
-                return false;
-            }
-            
+        
+        if(haveSameSuit(cards)){
+            handValue = cards.get(cards.size()-1).getValue();
+            return true;
         }
-        handValue = cards.get(cards.size()-1).getValue();
-        return true;
+        
+        return false;
     }
     
     private boolean isStraight(){
@@ -301,6 +283,16 @@ public class PokerHand {
         int value = subList.get(0).getValue();
         for(int i=1;i<subList.size();i++){
             if(subList.get(i).getValue() != value){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean haveSameSuit(List<PokerCard> subList){
+        PokerCard firstCard = subList.get(0);
+        for(int i=1;i<subList.size();i++){
+            if(subList.get(i).getSuit() != firstCard.getSuit()){
                 return false;
             }
         }

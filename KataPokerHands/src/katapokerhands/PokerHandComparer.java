@@ -8,6 +8,10 @@ public class PokerHandComparer {
         HAND_1, HAND_2, EQUAL, UNKNOWN
     }
     
+    private void compareEqualHandTypes(){
+        //If hand types are both equal, compare their rank
+    }
+    
     public Result compare(PokerHand hand1, PokerHand hand2){
         if(hand1.getTotalValue() > hand2.getTotalValue()){
             return Result.HAND_1;

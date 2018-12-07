@@ -26,6 +26,7 @@ public class KataPokerHands {
         
         //System.out.println("Please input the game info: ");
         String game = "Black: 2H 3D 5S 9C KD  White: 2C 3H 4S 8C AH";//inputReader.nextLine();
+        game = "Black: AH 4C 6D 9H 9S  White: 2C 3H 4S 8C AH";
         System.out.println(game+"\n");
         inputReader.close();
         String[] handsInfo = game.split("  "); //Two spaces separate the hands in the sample input
@@ -36,6 +37,11 @@ public class KataPokerHands {
         
         black = new PokerHand(handsInfo[0].split("\\s"));
         white = new PokerHand(handsInfo[1].split("\\s"));
+        
+        System.out.println(black.getTotalValue());
+        System.out.println(black.getHandType());
+        
+        /*
         switch(comparer.compare(black, white)){
             case HAND_1:
                 System.out.println("Black has the better hand");
@@ -50,6 +56,7 @@ public class KataPokerHands {
                 System.out.println("Unknown hand comparison");
                 break;
         }
+        */
         
         //Each row of input is a game with two players. The first five cards
         //belong to the player named "Black" and the second five cards belong to

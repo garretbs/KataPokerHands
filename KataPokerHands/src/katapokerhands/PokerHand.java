@@ -4,12 +4,13 @@ package katapokerhands;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.TreeMap;
 
 public class PokerHand {
     
     public ArrayList<PokerCard> cards = new ArrayList<>(); //The cards within the hand. 5 count
     
-    public enum HandType{
+    public static enum HandType{
         STRAIGHT_FLUSH,
         FOUR_OF_A_KIND,
         FULL_HOUSE,
@@ -20,6 +21,18 @@ public class PokerHand {
         PAIR,
         HIGH_CARD,
     }
+    
+    private static final TreeMap<HandType, Integer> HAND_RANKS = new TreeMap<HandType, Integer>(){{
+        put(HandType.STRAIGHT_FLUSH, 9);
+        put(HandType.FOUR_OF_A_KIND, 8);
+        put(HandType.FULL_HOUSE, 7);
+        put(HandType.FLUSH, 6);
+        put(HandType.STRAIGHT, 5);
+        put(HandType.THREE_OF_A_KIND, 4);
+        put(HandType.TWO_PAIRS, 3);
+        put(HandType.PAIR, 2);
+        put(HandType.HIGH_CARD, 1);
+    }};
     
     private HandType handType;
     private int handValue;
@@ -41,11 +54,19 @@ public class PokerHand {
         cards.sort(Comparator.comparingInt(PokerCard::getValue));
     }
     
+    public int getHandRank(){
+        return HAND_RANKS.get(handType);
+    }
+    
+    public int getHandValue(){
+        return handValue;
+    }
+    
     public HandType getHandType(){
         return handType;
     }
     
-    public int getTotalValue(){
+    public void determineHandType(){
         
         //The cards have been sorted by value in ascending order.
         
@@ -80,10 +101,9 @@ public class PokerHand {
             handType = HandType.HIGH_CARD;
             handValue = cards.get(cards.size()-1).getValue();
         }
-        return handValue;
     }
     
-    private boolean isStraightFlush(){
+    public boolean isStraightFlush(){
         //Straight flush: 5 cards of the same suit with consecutive values.
         //Ranked by the highest card in the hand.
         
@@ -95,7 +115,7 @@ public class PokerHand {
         return false;
     }
     
-    private boolean isFourOfAKind(){
+    public boolean isFourOfAKind(){
         //Four of a kind: 4 cards with the same value. Ranked by the value of
         //the 4 cards.
         List<PokerCard> subList;
@@ -117,7 +137,7 @@ public class PokerHand {
         return false;
     }
     
-    private boolean isFullHouse(){
+    public boolean isFullHouse(){
         //Full House: 3 cards of the same value, with the remaining 2 cards
         //forming a pair. Ranked by the value of the 3 cards.
         List<PokerCard> firstList;
@@ -142,7 +162,7 @@ public class PokerHand {
         return false;
     }
     
-    private boolean isFlush(){
+    public boolean isFlush(){
         //Flush: Hand contains 5 cards of the same suit. Hands which are both
         //flushes are ranked using the rules for High Card.
         
@@ -154,7 +174,7 @@ public class PokerHand {
         return false;
     }
     
-    private boolean isStraight(){
+    public boolean isStraight(){
         //Straight: Hand contains 5 cards with consecutive values. Hands which
         //both contain a straight are ranked by their highest card.
         
@@ -175,7 +195,7 @@ public class PokerHand {
         return true;
     }
     
-    private boolean isThreeOfAKind(){
+    public boolean isThreeOfAKind(){
         //Three of a Kind: Three of the cards in the hand have the same value.
         //Hands which both contain three of a kind are ranked by the value of
         //the 3 cards.
@@ -205,7 +225,7 @@ public class PokerHand {
         return false;
     }
     
-    private boolean isTwoPairs(){
+    public boolean isTwoPairs(){
         //Two Pairs: The hand contains 2 different pairs. Hands which both
         //contain 2 pairs are ranked by the value of their highest pair. Hands
         //with the same highest pair are ranked by the value of their other pair.
@@ -241,7 +261,7 @@ public class PokerHand {
         return false;
     }
     
-    private boolean isPair(){
+    public boolean isPair(){
         //Pair: 2 of the 5 cards in the hand have the same value. Hands which
         //both contain a pair are ranked by the value of the cards forming the
         //pair. If these values are the same, the hands are ranked by the values

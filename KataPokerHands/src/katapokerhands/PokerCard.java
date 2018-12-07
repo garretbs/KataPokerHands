@@ -9,7 +9,7 @@ public class PokerCard {
         CLUB, SPADE, DIAMOND, HEART
     }
     
-    private final static TreeMap<Character, Integer> CARDVALUES = new TreeMap<Character, Integer>(){{
+    private final static TreeMap<Character, Integer> CARD_VALUES = new TreeMap<Character, Integer>(){{
         put('2', 2);
         put('3', 3);
         put('4', 4);
@@ -25,7 +25,7 @@ public class PokerCard {
         put('A', 14);
     }};
     
-    private final static TreeMap<Character, Suit> SUITVALUES = new TreeMap<Character, Suit>(){{
+    private final static TreeMap<Character, Suit> SUIT_VALUES = new TreeMap<Character, Suit>(){{
         put('C', Suit.CLUB);
         put('S', Suit.SPADE);
         put('D', Suit.DIAMOND);
@@ -45,10 +45,10 @@ public class PokerCard {
     
     public int getValue(){
         //error if unknown symbol
-        return CARDVALUES.get(value);
+        return CARD_VALUES.get(value);
     }
     
     public Suit getSuit(){
-        return SUITVALUES.get(suit);
+        return SUIT_VALUES.get(suit);
     }
 }

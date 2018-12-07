@@ -12,15 +12,59 @@ public class PokerHandComparer {
         //If hand types are both equal, compare their rank
     }
     
+    private void compareTwoPairs(){
+        //Special comparison
+    }
+    
+    private void comparePairs(){
+        //Special comparison
+    }
+    
     public Result compare(PokerHand hand1, PokerHand hand2){
-        if(hand1.getTotalValue() > hand2.getTotalValue()){
+        hand1.determineHandType();
+        hand2.determineHandType();
+        int hand1Rank = hand1.getHandRank();
+        int hand2Rank = hand2.getHandRank();
+        int hand1Value;
+        int hand2Value;
+        
+        System.out.println(hand1.getHandType());
+        //Hand1 is the better hand
+        if(hand1Rank > hand2Rank){
             return Result.HAND_1;
         }
-        if(hand2.getTotalValue() > hand1.getTotalValue()){
+        
+        //Hand2 is the better hand
+        if(hand2Rank > hand1Rank){
             return Result.HAND_2;
         }
-        if(hand1.getTotalValue() == hand2.getTotalValue()){
-            return Result.EQUAL;
+        
+        //Both hands are the same type, so now we must do more special comparisons.
+        
+        switch(hand1.getHandType()){
+            case TWO_PAIRS:
+                //hands with the same highest pair are ranked by the value of their
+                //other pair. If these values are the same the hands are ranked by the
+                //value of the remaining card.
+                break;
+            case PAIR:
+                //If these values are the same, the hands are ranked by the values
+                //of the cards not forming the pair, in decreasing order.
+                break;
+            
+            //Values predetermined from hand type calculations
+            default:
+                hand1Value = hand1.getHandValue();
+                hand2Value = hand2.getHandValue();
+                if(hand1Value > hand2Value){
+                    return Result.HAND_1;
+                }
+
+                if(hand2Value > hand1Value){
+                    return Result.HAND_2;
+                }
+
+                return Result.EQUAL;
         }
         return Result.UNKNOWN;
     }

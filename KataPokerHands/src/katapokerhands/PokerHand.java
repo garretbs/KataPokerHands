@@ -8,7 +8,7 @@ import java.util.TreeMap;
 
 public class PokerHand {
     
-    public ArrayList<PokerCard> cards = new ArrayList<>(); //The cards within the hand. 5 count
+    private ArrayList<PokerCard> cards = new ArrayList<>(); //The cards within the hand. 5 count
     
     public static enum HandType{
         STRAIGHT_FLUSH,
@@ -36,6 +36,9 @@ public class PokerHand {
     
     private HandType handType;
     private int handValue;
+    private int lowerPairValue;
+    private int remainingCardValue;
+    private ArrayList<Integer> remainingCardValues;
     
     public PokerHand(String[] handInfo) throws Exception{
         if(handInfo.length != 6){ //5 cards plus label
@@ -62,8 +65,20 @@ public class PokerHand {
         return handValue;
     }
     
+    public int getLowerPairValue(){
+        return lowerPairValue;
+    }
+    
+    public int getRemainingCardValue(){
+        return remainingCardValue;
+    }
+    
     public HandType getHandType(){
         return handType;
+    }
+    
+    public int getRemainingCardValue(int index){
+        return remainingCardValues.get(index);
     }
     
     public void determineHandType(){
@@ -240,22 +255,28 @@ public class PokerHand {
         pair2 = cards.subList(2, 4);
         if(haveSameValue(pair1) && haveSameValue(pair2)){
             handValue = pair2.get(0).getValue();
+            lowerPairValue = pair1.get(0).getValue();
+            remainingCardValue = cards.get(cards.size()-1).getValue();
             return true;
         }
         
         //Second possibility: First two and last two cards are pairs
         pair1 = cards.subList(0, 2);
-        pair2 = cards.subList(3, 4);
+        pair2 = cards.subList(3, 5);
         if(haveSameValue(pair1) && haveSameValue(pair2)){
             handValue = pair2.get(0).getValue();
+            lowerPairValue = pair1.get(0).getValue();
+            remainingCardValue = cards.get(2).getValue();
             return true;
         }
         
         //Third possibility: Last four cards are two pairs
         pair1 = cards.subList(1, 3);
-        pair2 = cards.subList(3, 4);
+        pair2 = cards.subList(3, 5);
         if(haveSameValue(pair1) && haveSameValue(pair2)){
             handValue = pair2.get(0).getValue();
+            lowerPairValue = pair1.get(0).getValue();
+            remainingCardValue = cards.get(0).getValue();
             return true;
         }
         return false;
@@ -268,11 +289,18 @@ public class PokerHand {
         //of the cards not forming the pair, in decreasing order.
         
         List<PokerCard> pair;
+        remainingCardValues = new ArrayList<>();
         
         //First possibility: first two cards
         pair = cards.subList(0, 2);
         if(haveSameValue(pair)){
             handValue = pair.get(0).getValue();
+            
+            //Store remaining card values for potential later comparison
+            remainingCardValues.add(cards.get(4).getValue());
+            remainingCardValues.add(cards.get(3).getValue());
+            remainingCardValues.add(cards.get(2).getValue());            
+            
             return true;
         }
         
@@ -280,6 +308,12 @@ public class PokerHand {
         pair = cards.subList(1, 3);
         if(haveSameValue(pair)){
             handValue = pair.get(0).getValue();
+            
+            //Store remaining card values for potential later comparison
+            remainingCardValues.add(cards.get(4).getValue());
+            remainingCardValues.add(cards.get(3).getValue());
+            remainingCardValues.add(cards.get(0).getValue());
+            
             return true;
         }
         
@@ -287,6 +321,12 @@ public class PokerHand {
         pair = cards.subList(2, 4);
         if(haveSameValue(pair)){
             handValue = pair.get(0).getValue();
+            
+            //Store remaining card values for potential later comparison
+            remainingCardValues.add(cards.get(4).getValue());
+            remainingCardValues.add(cards.get(1).getValue());
+            remainingCardValues.add(cards.get(0).getValue());
+            
             return true;
         }
         
@@ -294,6 +334,12 @@ public class PokerHand {
         pair = cards.subList(3, 5);
         if(haveSameValue(pair)){
             handValue = pair.get(0).getValue();
+            
+            //Store remaining card values for potential later comparison
+            remainingCardValues.add(cards.get(2).getValue());
+            remainingCardValues.add(cards.get(1).getValue());
+            remainingCardValues.add(cards.get(0).getValue());
+            
             return true;
         }
         return false;

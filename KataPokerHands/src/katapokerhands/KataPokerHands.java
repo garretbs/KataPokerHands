@@ -24,9 +24,8 @@ public class KataPokerHands {
         PokerHand white;
         PokerHandComparer comparer = new PokerHandComparer();
         
-        //System.out.println("Please input the game info: ");
-        String game = "Black: 2H 2D 5S 5C KD  White: 7C 7H 4S 4C KH";//inputReader.nextLine();
-        System.out.println(game+"\n");
+        System.out.println("Please input the game info: ");
+        String game = inputReader.nextLine();
         inputReader.close();
         String[] handsInfo = game.split("  "); //Two spaces separate the hands in the sample input
         
